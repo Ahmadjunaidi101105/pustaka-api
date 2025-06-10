@@ -47,15 +47,26 @@ jobs:
           port: 22
 
           script: |
-            PROJECT_DIR="/home/ahbdz/pustaka-api" # Ganti ke lokasi yang benar
+            PROJECT_DIR="/home/ahbdz/pustaka-api"
             echo "📦 Checking and preparing project directory..."
             if [ ! -d "$PROJECT_DIR" ]; then
-              echo "Project directory not found, cloning repository..."
-              git clone https://github.com/Ahmadjunaidi101105/pustaka-api.git "$PROJECT_DIR" .
+              echo "Project directory not found, creating directory..."
+              mkdir -p "$PROJECT_DIR"
+              # CD ke direktori sebelum clone, lalu clone ke '.'
+              cd "$PROJECT_DIR"
+              git clone https://github.com/Ahmadjunaidi101105/pustaka-api.git .
+            else
+              echo "Project directory exists, navigating into it..."
+              cd "$PROJECT_DIR"
             fi
+
             echo "📦 Pulling latest code..."
-            cd "$PROJECT_DIR"
-            git pull origin main
-            go build -o app # Pastikan baris ini juga diindentasi dengan benar
-            pkill app || true # Ini juga
-            nohup ./app > log.txt 2>&1 & # Ini juga
+            git pull origin main # Sudah di dalam dir karena cd di atas
+
+            echo "🛠️ Building Go application..."
+            go build -o app
+            
+            echo "🔄 Restarting application..."
+            pkill app || true 
+            nohup ./app > log.txt 2>&1 &
+            echo "✅ Deployment complete!"
