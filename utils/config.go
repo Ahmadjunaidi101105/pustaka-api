@@ -2,27 +2,22 @@ package utils
 
 import (
 	"github.com/spf13/viper"
-	"path/filepath" // Import ini
 )
 
-// Config ...
+// Config contains the configuration for the application.
+// the values are read by viper from a config file or environment variables.
 type Config struct {
-	DSN                 string `mapstructure:"DSN"`
+	DSN               string `mapstructure:"DSN"`
 	HTTPServerAddress string `mapstructure:"HTTP_SERVER_ADDRESS"`
 }
 
-// LoadConfig loads the configuration explicitly from app.env in the current directory.
-func LoadConfig() (config Config, err error) {
-	// Dapatkan path absolut ke file app.env di direktori saat ini
-	currentDir, err := os.Getwd() // Anda perlu import "os"
-	if err != nil {
-		return config, err
-	}
-	configFilePath := filepath.Join(currentDir, "app.env")
+// LoadConfig loads the configuration from a config file or environment variables.
+func LoadConfig(path string) (config Config, err error) {
+	viper.AddConfigPath(path)
+	viper.SetConfigName("app")
+	viper.SetConfigType("env")
 
-	viper.SetConfigFile(configFilePath) // Mengatur path dan nama file secara eksplisit
-
-	viper.AutomaticEnv() // Masih penting untuk variabel lingkungan
+	viper.AutomaticEnv()
 
 	err = viper.ReadInConfig()
 	if err != nil {
