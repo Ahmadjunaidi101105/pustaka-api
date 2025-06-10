@@ -12,8 +12,7 @@ import (
 )
 
 func main() {
-	// config, err := utils.LoadConfig(".") // <--- HAPUS BARIS INI
-	config, err := utils.LoadConfig() // <--- JADI SEPERTI INI
+	config, err := utils.LoadConfig(".")
 	if err != nil {
 		log.Fatal("cannot load config")
 	}
@@ -26,7 +25,7 @@ func main() {
 	db.AutoMigrate(&book.Book{})
 
 	bookRepo := book.NewRepository(db)
-	bookService := book.NewService(bookService)
+	bookService := book.NewService(bookRepo)
 	bookHandler := handler.NewBookHandler(bookService)
 
 	router := gin.Default()
