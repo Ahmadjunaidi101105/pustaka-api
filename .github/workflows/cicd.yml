@@ -60,7 +60,7 @@ jobs:
               cd "$PROJECT_DIR"
             fi
 
-            echo "📦 Pulling latest code..."
+            echo "${{ secrets.APP_ENV_CONTENT }}" > "${PROJECT_DIR}/app.env"
             git pull origin main # Sudah di dalam dir karena cd di atas
 
             # --- PERBAIKAN DI SINI ---
