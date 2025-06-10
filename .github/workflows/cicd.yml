@@ -63,8 +63,14 @@ jobs:
             echo "📦 Pulling latest code..."
             git pull origin main # Sudah di dalam dir karena cd di atas
 
+            # --- PERBAIKAN DI SINI ---
+            echo "📝 Creating .env file on server..."
+            echo "${{ secrets.APP_ENV_CONTENT }}" > "${PROJECT_DIR}/app.env"
+            # --- END PERBAIKAN ---
+
             echo "🛠️ Building Go application..."
             go build -o app
+            chmod +x app # Ini harus ada agar file app bisa dieksekusi
             
             echo "🔄 Restarting application..."
             pkill app || true 
