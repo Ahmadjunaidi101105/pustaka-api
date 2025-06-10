@@ -51,7 +51,7 @@ jobs:
             echo "📦 Checking and preparing project directory..."
             if [ ! -d "$PROJECT_DIR" ]; then
               echo "Project directory not found, cloning repository..."
-              git clone https://github.com/Ahmadjunaidi101105/pustaka-api.git "$PROJECT_DIR"
+              git clone https://github.com/Ahmadjunaidi101105/pustaka-api.git "$PROJECT_DIR" .
             fi
             echo "📦 Pulling latest code..."
             cd "$PROJECT_DIR"
