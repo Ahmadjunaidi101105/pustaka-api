@@ -63,10 +63,16 @@ jobs:
             echo "📦 Pulling latest code..."
             git pull origin main # Sudah di dalam dir karena cd di atas
 
-            # --- PERBAIKAN DI SINI ---
+            # --- Bagian untuk membuat .env file ---
             echo "📝 Creating .env file on server..."
             echo "${{ secrets.APP_ENV_CONTENT }}" > "${PROJECT_DIR}/app.env"
-            # --- END PERBAIKAN ---
+            # --- End .env file creation ---
+
+            # --- Bagian Debugging (Opsional, bisa dihapus setelah berhasil) ---
+            echo "Verifying content of app.env on server:"
+            cat "${PROJECT_DIR}/app.env"
+            echo "--- End app.env content verification ---"
+            # --- End Debugging ---
 
             echo "🛠️ Building Go application..."
             go build -o app
